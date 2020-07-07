@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="index.css">
+    <script src='index.js' defer></script>
+</head>
+<body>
+    <div id="historical-data">
+        <button id="sc-history">History</button>
+        <ul id="history-container">
+
+        </ul>
+    </div>
+    <form id="new-task-form">
+        <input type="text" value="" placeholder="Add new self-care task" name="content" id="content">
+        <select name="category" id="category">
+        <option value="" selected disabled hidden>Category</option>
+        </select>
+        <input type="submit" value="submit">
+    </form>
+    <div id="task-container">
+        <h1></h1>
+        <ul id="task-list">
+        </ul>
+    </div>
+
+</body>
+</html>
