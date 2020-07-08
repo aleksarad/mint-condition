@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mint</title>
+    <title>🌱Mint Condition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="index.css">
     <script src='index.js' defer></script>
@@ -11,21 +11,22 @@
 <body>
     <main>
         <div id="historical-data">
-            <img src="https://i.ibb.co/7b4nsjr/history.png" alt="calendar icon" class="nav-icons">
-            <ul id="history-container">
+            <img src="https://i.ibb.co/7b4nsjr/history.png" id="show-history" alt="calendar icon" class="nav-icons">
+            <ul id="history-container" class="hidden">
 
             </ul>
         </div>
-
+        
         <div id="form-list-container">
-            <form id="new-task-form">
+            <h2>MintCondition</h2>
+            <form id="new-task-form" class="hidden">
                 <input type="text" value="" placeholder="Add new self-care task" name="content" id="content">
                 <select name="category" id="category">
                 <option value="" selected disabled hidden>Category</option>
                 </select>
                 <input id="task-submit" type="submit" value="submit">
             </form>
-
+            <!-- <h2>MintCondition</h2> -->
             <div id="task-container">
                 <h1></h1>
                 <hr class="horizontal">
@@ -34,7 +35,7 @@
             </div>
         </div>
         <div>
-            <img src="https://i.ibb.co/S3KynxB/newTask.png" alt="flower icon" class="nav-icons">
+            <img src="https://i.ibb.co/S3KynxB/newTask.png" alt="flower icon" id="show-form" class="nav-icons">
         </div>
     </main>
 </body>

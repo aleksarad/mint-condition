@@ -10,7 +10,10 @@ document.addEventListener("DOMContentLoaded", function(){
     fetchCategories()
     createNewTask()
     deleteEditTask()
+    toggleHistory()
+    toggleForm()
 })
+
 const baseUrl = "http://localhost:3000/"
 
 ///** FETCHES TO SERVER **///
@@ -150,7 +153,6 @@ function renderDay(day) {
 
     const taskList = document.querySelector("#task-list")
     taskList.innerHTML = ""
-    //could i store the day.id somewhere when rendering days?
     day.tasks.forEach(function(task) {
         renderTask(task)
     })
@@ -178,7 +180,6 @@ function renderTask(task) {
 }
 
 function createNewTask() {
-    console.log(currentDay)
     const newTaskForm = document.querySelector("#new-task-form")
     newTaskForm.addEventListener("submit", function(e){
         e.preventDefault();
@@ -270,4 +271,20 @@ function findCompleteStatus(heart) {
     else if (heart.textContent === hearts.incomplete) {
         return true
     }
+}
+
+function toggleHistory() {
+    const showHistory = document.querySelector("#show-history")
+    const historyContainer = document.querySelector("#history-container")
+    showHistory.addEventListener("click", function(){
+        historyContainer.classList.toggle("hidden")
+    })
+}
+
+function toggleForm() {
+    const showForm = document.querySelector("#show-form")
+    const newTaskForm = document.querySelector("#new-task-form")
+    showForm.addEventListener("click", function(){
+        newTaskForm.classList.toggle("hidden")
+    })
 }
