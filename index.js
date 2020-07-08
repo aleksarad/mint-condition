@@ -157,17 +157,20 @@ function renderTask(task) {
     const taskList = document.querySelector("#task-list")
     const taskLi = document.createElement("li")
     taskLi.innerHTML = `
-    <a href="" class="markComplete"> <i class="fa fa-heart"></i>  </a>
+    <a href="" class="markComplete"> ♡ </a>
     <span for="content" class="taskContent" data-id="${task.id}" contenteditable="false"> ${task.content}</span>
     
     <button class="deleteButton">delete</button>
     <br>
-    <span>${task.category.name}</span>
+    <div class="category-container">
     <img class="categoryImg" src="${task.category.icon}" alt="${task.category.name} icon">
+        <span>${task.category.name}</span>
+    </div>
+    <hr class="horizontal">
     `
     taskList.append(taskLi)
     console.log(task.category)
-    const heartIcon = taskLi.querySelector("i")
+    const heartIcon = taskLi.querySelector(".markComplete")
     likeStyleHelper(heartIcon, task)
 }
 
@@ -195,7 +198,7 @@ function createNewTask() {
 function deleteEditTask() {
     const taskList = document.querySelector("#task-list")
     taskList.addEventListener("click", function(e){
-
+        e.preventDefault()
         if (e.target.className === "deleteButton") {
             const task = e.target.previousElementSibling
             const taskId = task.getAttribute('data-id');
@@ -225,13 +228,13 @@ function deleteEditTask() {
             console.log(e.target)
             const completeStatus = e.target 
             const id = completeStatus.nextElementSibling.getAttribute('data-id')
-            const heart = e.target.querySelector("i")
+            // const heart = e.target.querySelector("i")
 
             patchObj = {
-                complete: findCompleteStatus(heart),
+                complete: findCompleteStatus(e.target),
             } 
             console.log(patchObj)
-            markCompleteReq(id, patchObj, heart)
+            markCompleteReq(id, patchObj, e.target)
         }
     })
 }

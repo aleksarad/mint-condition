@@ -1,0 +1,143 @@
+/* overriding default styling */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-size: 19px;
+    /* border: 1px solid; */
+    font-family: 'Open Sans', sans-serif;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+}
+
+.categoryImg {
+    width: 25px;
+}
+
+body {
+    height: 100vh;
+    background-color: #a2efe3;
+    background-image: url("https://i.ibb.co/r4n6yCC/mint-logo.png");
+    background-repeat: no-repeat;
+    background-position:left bottom;
+    color: #3f6660;
+}
+/* NAV - sort of */
+.nav-icons {
+    width: 115px;
+    padding: 50px 25px;
+}
+
+/* NEW TASK FORM*/
+
+#new-task-form {
+    text-align: center;
+    margin: 30px 0;
+    background-color: #3f6660;
+    padding: 4px 0;
+    border-radius: 5px;
+    width: 500px;
+}
+
+#new-task-form input, #new-task-form select {
+    height: 30px;
+    width: 22%;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+#new-task-form #content {
+    height: 30px;
+    width: 50%;
+    border-radius: 5px;
+    background-color: #fff5ff;
+    padding-left: 10px;
+}
+
+#new-task-form #task-submit {
+    background-color: #3f6660;
+    color:#d5fff8;
+    /* font-size: 20px; */
+}
+
+#new-task-form #task-submit:hover {
+    cursor: pointer;
+    color: #e3fffa;
+}
+
+#new-task-form #category {
+    background-color:#d5fff8;
+}
+
+/* TASKS */
+
+#task-container {
+    /* border: 1px solid; */
+    width: 350px;
+    margin: auto;
+    background-color: #fff5ff;
+    border-radius: 7px;
+    padding: 15px 0;
+}
+
+#task-container h1 {
+    text-align: center;
+    margin: 5px 0;
+    font-size: 30px;
+    color: #3f6660;
+}
+
+#task-container li {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 32px 32px; 
+}
+
+#task-container .markComplete {
+    font-size: 18px;
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    justify-self: center;
+    align-self: center;
+    border-right: 1.5px solid #3f6660;
+    padding: 30% 30%;
+}
+
+#task-container .category-container {
+    grid-column: 5 / 7;
+    grid-row: 2 / 3;
+    align-self: center;
+}
+
+#task-container .deleteButton {
+    grid-column: 6 / 7;
+    grid-row: 1 / 2;
+    align-self: end;
+    margin-right: 15px;
+}
+
+#task-container .taskContent {
+    grid-column: 2 / 6;
+    grid-row: 1/3
+    align-self: end;
+    padding-left: 15px;
+    font-size: 20px;
+}
+
+#task-container .horizontal {
+    grid-column: 1 / 7;
+    border: 1.5px solid #3f6660;
+}
