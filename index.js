@@ -1,5 +1,8 @@
 //display category next to task when render
-
+const hearts = {
+    complete: "♥",
+    incomplete: "♡",
+}
 let currentDay = ""
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -157,10 +160,10 @@ function renderTask(task) {
     const taskList = document.querySelector("#task-list")
     const taskLi = document.createElement("li")
     taskLi.innerHTML = `
-    <a href="" class="markComplete"> ♡ </a>
+    <a href="" class="markComplete"></a>
     <span for="content" class="taskContent" data-id="${task.id}" contenteditable="false"> ${task.content}</span>
     
-    <button class="deleteButton">delete</button>
+    <span class="deleteButton">&#10005;</span>
     <br>
     <div class="category-container">
     <img class="categoryImg" src="${task.category.icon}" alt="${task.category.name} icon">
@@ -228,7 +231,6 @@ function deleteEditTask() {
             console.log(e.target)
             const completeStatus = e.target 
             const id = completeStatus.nextElementSibling.getAttribute('data-id')
-            // const heart = e.target.querySelector("i")
 
             patchObj = {
                 complete: findCompleteStatus(e.target),
@@ -250,18 +252,22 @@ function retrieveJsDate(day) {
 
 function likeStyleHelper(heart, task) {
     if (task.complete === true) {
-        heart.style.color = "black"
+        heart.textContent = hearts.complete
+        heart.style.color = "#75c9bc"
+        heart.parentElement.style.backgroundColor = "#cde4e0"
     }
     else if (task.complete === false) {
-        heart.style.color = "red"
+        heart.textContent = hearts.incomplete
+        heart.style.color = "#3f6660"
+        heart.parentElement.style.backgroundColor = "#fff5ff"
     }
 }
 
 function findCompleteStatus(heart) {
-    if (heart.style.color === "black") {
+    if (heart.textContent === hearts.complete) {
         return false
     }
-    else if (heart.style.color = "red") {
+    else if (heart.textContent === hearts.incomplete) {
         return true
     }
 }
