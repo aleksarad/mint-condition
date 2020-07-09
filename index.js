@@ -1,4 +1,3 @@
-//display category next to task when render
 const hearts = {
     complete: "♥",
     incomplete: "♡",
@@ -15,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function(){
 })
 
 const baseUrl = "http://localhost:3000/"
+const progressBar = document.querySelector("#progress")
 
 ///** FETCHES TO SERVER **///
 
@@ -55,8 +55,8 @@ function createTaskReq(newTaskObj) {
         return res.json();
     })
     .then(function(newTask){
-        console.log(newTask)
         renderTask(newTask)
+        progressBar.max += 1
     })
 }
 
@@ -74,12 +74,12 @@ function deleteTaskReq(id, li) {
     })
     .then(function(){
         li.remove()
+        progressBar.max -= 1
     })
 }
 
 //edit
 function editTaskRequest(id, taskObj) {
-    console.log(id, taskObj)
     const config = {
         method: "PATCH",
         headers: {
@@ -94,7 +94,6 @@ function editTaskRequest(id, taskObj) {
         return res.json();
     })
     .then(function(newTask){
-        console.log(newTask)
     })
 }
 
@@ -113,8 +112,8 @@ function markCompleteReq(id, taskObj, heart) {
         return res.json();
     })
     .then(function(newTask){
-        console.log(newTask)
         likeStyleHelper(heart, newTask)
+        updateProgressBar(newTask)
     })
 }
 
@@ -122,6 +121,7 @@ function markCompleteReq(id, taskObj, heart) {
 
 function renderCategories(categories) {
     const categorySelect = document.querySelector("#category")
+
     categories.forEach(function(category){
         const categoryOption = document.createElement("option")
         categoryOption.textContent = category.name
@@ -142,7 +142,6 @@ function renderDaysList(days) {
             renderDay(day)
             currentDay = day
         })
-
     })
 }
 
@@ -153,9 +152,18 @@ function renderDay(day) {
 
     const taskList = document.querySelector("#task-list")
     taskList.innerHTML = ""
+
+    resetProgressBar()
+    progressBar.max = day.tasks.length 
+
     day.tasks.forEach(function(task) {
         renderTask(task)
+
+        if(task.complete === true) {
+            progressBar.value ++
+        }
     })
+
 }
 
 function renderTask(task) {
@@ -174,7 +182,6 @@ function renderTask(task) {
     <hr class="horizontal">
     `
     taskList.append(taskLi)
-    console.log(task.category)
     const heartIcon = taskLi.querySelector(".markComplete")
     likeStyleHelper(heartIcon, task)
 }
@@ -193,7 +200,6 @@ function createNewTask() {
             day_id: currentDay.id,
             content: newTaskForm.content.value,
         }
-        console.log(newTaskObj)
         createTaskReq(newTaskObj)
     })
 }
@@ -203,12 +209,14 @@ function deleteEditTask() {
     const taskList = document.querySelector("#task-list")
     taskList.addEventListener("click", function(e){
         e.preventDefault()
+
         if (e.target.className === "deleteButton") {
             const task = e.target.previousElementSibling
             const taskId = task.getAttribute('data-id');
             deleteTaskReq(taskId, e.target.parentElement)
 
         }
+
         else if (e.target.className === "taskContent") {
             const task = e.target
             task.contentEditable = "true";
@@ -229,14 +237,12 @@ function deleteEditTask() {
 
         else if (e.target.className === "markComplete") {
             e.preventDefault()
-            console.log(e.target)
             const completeStatus = e.target 
             const id = completeStatus.nextElementSibling.getAttribute('data-id')
 
             patchObj = {
                 complete: findCompleteStatus(e.target),
             } 
-            console.log(patchObj)
             markCompleteReq(id, patchObj, e.target)
         }
     })
@@ -288,3 +294,18 @@ function toggleForm() {
         newTaskForm.classList.toggle("hidden")
     })
 }
+
+function updateProgressBar(newTask) {
+    if (newTask.complete === true) {
+        progressBar.value += 1
+    }
+    else if (newTask.complete === false) {
+        progressBar.value -= 1
+    }
+}
+
+function resetProgressBar() {
+    progressBar.max = 0
+    progressBar.value = 0
+}
+
