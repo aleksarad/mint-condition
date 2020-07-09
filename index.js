@@ -20,10 +20,8 @@ const progressBar = document.querySelector("#progress")
 
 function fetchDays() {
     fetch(`${baseUrl}days`)
-    .then(function(res) {
-        return res.json();
-    })
-    .then(function(days) {
+    .then(res => res.json())
+    .then(days => {
         currentDay = days[days.length-1]
         renderDay(days[days.length-1])
         renderDaysList(days)
@@ -32,24 +30,27 @@ function fetchDays() {
 
 function fetchOneDay(day) {
     fetch(`${baseUrl}days/${day.id}`)
-    .then(function(res) {
-        return res.json();
-    })
-    .then(function(dayObj) {
-        currentDay = dayObj
-        renderDay(dayObj)
+    .then(res => res.json())
+    .then(day => {
+        currentDay = day 
+        renderDay(day)
     })
 }
 
 function fetchCategories() {
     fetch(`${baseUrl}categories`)
-    .then(function(res) {
-        return res.json();
-    })
-    .then(function(categories) {
-        renderCategories(categories)
-    })
+    .then(res => res.json())
+    .then(categories => renderCategories(categories))
 }
+
+// function fetchOneCategory(id) {
+//     fetch(`${baseUrl}categories/${id}`)
+//     .then(res => res.json())
+//     .then(category => {
+//         console.log(category)
+//         renderTasksByCategory(category)
+//     })
+// }
 
 function createTaskReq(newTaskObj) {
     const config = {
@@ -62,11 +63,9 @@ function createTaskReq(newTaskObj) {
     }
 
     fetch(`${baseUrl}tasks`, config)
-    .then(function(res){
-        return res.json();
-    })
-    .then(function(newTask){
-        renderTask(newTask)
+    .then(res => res.json())
+    .then(task => {
+        renderTask(task)
         progressBar.max += 1
     })
 }
@@ -81,9 +80,9 @@ function deleteTaskReq(id, li) {
     }
 
     fetch(`${baseUrl}tasks/${id}`, config)
-    .then(function(){
-    })
-    .then(function(){
+    //do i need the first .then()
+    .then()
+    .then(() => {
         li.remove()
         progressBar.max -= 1
     })
@@ -101,11 +100,7 @@ function editTaskRequest(id, taskObj) {
     }
 
     fetch(`${baseUrl}tasks/${id}`, config)
-    .then(function(res){
-        return res.json();
-    })
-    .then(function(newTask){
-    })
+    .then(res => res.json())
 }
 
 function markCompleteReq(id, taskObj, heart) {
@@ -119,12 +114,10 @@ function markCompleteReq(id, taskObj, heart) {
     }
 
     fetch(`${baseUrl}tasks/${id}`, config)
-    .then(function(res){
-        return res.json();
-    })
-    .then(function(newTask){
-        likeStyleHelper(heart, newTask)
-        updateProgressBar(newTask)
+    .then(res => res.json())
+    .then(update => {
+        likeStyleHelper(heart, update)
+        updateProgressBar(update)
     })
 }
 
@@ -144,11 +137,12 @@ function renderCategories(categories) {
 function renderDaysList(days) {
     const historyUl = document.querySelector("#history-container")
     days.forEach(function(day) {
-
+        //converting date from Ruby to JS
         const newDate = retrieveJsDate(day)
+
         const dayLi = document.createElement("li")
         dayLi.textContent = newDate
-        historyUl.append(dayLi)
+        historyUl.prepend(dayLi)
 
         dayLi.addEventListener("click", function(e) {
             fetchOneDay(day)
@@ -186,13 +180,14 @@ function renderTask(task) {
     
     <span class="deleteButton">&#10005;</span>
     <br>
-    <div class="category-container">
+    <div id="category-container" data-id="${task.category.id}">
     <img class="categoryImg" src="${task.category.icon}" alt="${task.category.name} icon">
-        <span>${task.category.name}</span>
+        <span class="category-name">${task.category.name}</span>
     </div>
     <hr class="horizontal">
     `
     taskList.append(taskLi)
+
     const heartIcon = taskLi.querySelector(".markComplete")
     likeStyleHelper(heartIcon, task)
 }
@@ -256,11 +251,26 @@ function deleteEditTask() {
             } 
             markCompleteReq(id, patchObj, e.target)
         }
+
+        // else if (e.target.className === "categoryImg" || e.target.className === "category-name") {
+        //     e.stopImmediatePropagation()
+        //     const categoryId = e.target.parentElement.getAttribute("data-id")
+        //     fetchOneCategory(categoryId)
+        // }
     })
 }
 
-///** HELPERS **///
+// function renderTasksByCategory(category) {
+//     const tasksByCategoryContainer = document.querySelector("#tasks-by-category")
 
+//     category.tasks.forEach(function(task){
+//         const taskLi = document.createElement("li")
+//         taskLi.textContent = task.content
+//         tasksByCategoryContainer.append(taskLi)
+//     })
+// }
+
+///** HELPERS **///
 function retrieveJsDate(day) {
     const currentDate = day.created_at.split("T")
     const date = currentDate[0]
