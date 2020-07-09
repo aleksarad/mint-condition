@@ -30,6 +30,17 @@ function fetchDays() {
     })
 }
 
+function fetchOneDay(day) {
+    fetch(`${baseUrl}days/${day.id}`)
+    .then(function(res) {
+        return res.json();
+    })
+    .then(function(dayObj) {
+        currentDay = dayObj
+        renderDay(dayObj)
+    })
+}
+
 function fetchCategories() {
     fetch(`${baseUrl}categories`)
     .then(function(res) {
@@ -133,14 +144,14 @@ function renderCategories(categories) {
 function renderDaysList(days) {
     const historyUl = document.querySelector("#history-container")
     days.forEach(function(day) {
+
         const newDate = retrieveJsDate(day)
         const dayLi = document.createElement("li")
         dayLi.textContent = newDate
         historyUl.append(dayLi)
 
         dayLi.addEventListener("click", function(e) {
-            renderDay(day)
-            currentDay = day
+            fetchOneDay(day)
         })
     })
 }
